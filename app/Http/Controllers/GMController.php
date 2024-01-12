@@ -44,6 +44,11 @@ class GMController extends Controller
                 'Authorization' => 'Bearer '.$token
             ]
         ]);
+        // $response = $client->request('GET', 'https://us.api.blizzard.com/sc2/legacy/ladder/1/319813', [
+        //     'headers' => [
+        //         'Authorization' => 'Bearer '.$token
+        //     ]
+        // ]);
         // dd($response->getStatusCode());
         return json_decode($response->getBody());
     }
