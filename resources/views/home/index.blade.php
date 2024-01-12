@@ -7,6 +7,7 @@
                 <tr>
                     <th scope="col">Player</th>
                     <th scope="col">Race</th>
+                    <th scope="col">Clan</th>
                     <th scope="col">MMR</th>
                     <th scope="col">Wins</th>
                     <th scope="col">Losses</th>
@@ -25,6 +26,9 @@
                         </th>
                         <td>
                             {{ ucfirst(strtolower($data->favoriteRaceP1 ?? '')) }}
+                        </td>
+                        <td>
+                            {{ $data->character->clanTag ?? '' }}
                         </td>
                         <td>
                             mmr
