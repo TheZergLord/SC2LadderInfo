@@ -28,7 +28,7 @@
                             {{ ucfirst(strtolower($data->favoriteRaceP1 ?? '')) }}
                         </td>
                         <td>
-                            {{ $data->clanTag ?? '' }}
+                            {{ $data->character->clanTag ?? '' }}
                         </td>
                         <td>
                             mmr
