@@ -11,7 +11,7 @@ class GMController extends Controller
 {
     public function app()
     {
-        $apidata = collect($this->GMList())->sortBy(['mmr', 'desc']);
+        $apidata = collect($this->GMList());
         return view('home.index', compact('apidata'));
     }
 

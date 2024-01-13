@@ -9,6 +9,7 @@
                     <th scope="col">Race</th>
                     <th scope="col">Clan</th>
                     <th scope="col">MMR</th>
+                    <th scope="col">Points</th>
                     <th scope="col">Wins</th>
                     <th scope="col">Losses</th>
                 </tr>
@@ -19,19 +20,22 @@
                         <td>No GM Players Yet</td>
                     </th>
                 @else
-                    @foreach ($apidata as $data)
+                    @foreach ($apidata['ladderTeams'] as $data)
                     <tr>
                         <th scope="row">
-                            {{ $data->character->displayName ?? '' }}
+                            {{ $data->teamMembers[0]->displayName ?? '' }}
                         </th>
                         <td>
-                            {{ ucfirst(strtolower($data->favoriteRaceP1 ?? '')) }}
+                            {{ ucfirst($data->teamMembers[0]->favoriteRace ?? '') }}
                         </td>
                         <td>
-                            {{ $data->character->clanTag ?? '' }}
+                            {{ $data->teamMembers[0]->clanTag ?? '' }}
                         </td>
                         <td>
-                            mmr
+                            {{ $data->mmr ?? '' }}
+                        </td>
+                        <td>
+                            {{ $data->points ?? '' }}
                         </td>
                         <td>
                             {{ $data->wins ?? '' }}
