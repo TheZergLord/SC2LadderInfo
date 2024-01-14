@@ -17,14 +17,19 @@ class GMController extends Controller
 
     public function GMList()
     {
-        // $auth_file = file(base_path('bnetAPIToken.key'));
         $token = file_get_contents(base_path('bnetAPIToken.key'));
 
         $client = new Client();
-        $response = $client->request('POST', 'https://oauth.battle.net/oauth/check_token?:region=us&token='.$token);
-        $token_verify = json_decode($response->getBody());
-        
-        if($token_verify->exp < Carbon::now()->timestamp)
+        try
+        {
+            $response = $client->request('POST', 'https://oauth.battle.net/oauth/check_token',[
+                'form_params' => [
+                    'region' => 'us',
+                    'token' => $token
+                ]
+            ]);
+        }
+        catch(\Exception $e)
         {
             $client_id = env('BATTLE_NET_CLIENT_ID');
             $client_secret = env('BATTLE_NET_CLIENT_SECRET');
