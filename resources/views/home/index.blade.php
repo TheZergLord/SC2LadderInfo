@@ -15,33 +15,33 @@
                 </tr>
             </thead>
             <tbody>
-                @if ($apidata->isEmpty())
+                @if ($na_gm->isEmpty())
                     <th scope="row">
                         <td>No GM Players Yet</td>
                     </th>
                 @else
-                    @foreach ($apidata['ladderTeams'] as $data)
+                    @foreach ($na_gm as $gm)
                     <tr>
                         <th scope="row">
-                            {{ $data->teamMembers[0]->displayName ?? '' }}
+                            {{ $gm->displayName ?? '' }}
                         </th>
                         <td>
-                            {{ ucfirst($data->teamMembers[0]->favoriteRace ?? '') }}
+                            {{ $gm->race ?? '' }}
                         </td>
                         <td>
-                            {{ $data->teamMembers[0]->clanTag ?? '' }}
+                            {{ $gm->clan ?? '' }}
                         </td>
                         <td>
-                            {{ $data->mmr ?? '' }}
+                            {{ $gm->mmr ?? '' }}
                         </td>
                         <td>
-                            {{ $data->points ?? '' }}
+                            {{ $gm->points ?? '' }}
                         </td>
                         <td>
-                            {{ $data->wins ?? '' }}
+                            {{ $gm->wins ?? '' }}
                         </td>
                         <td>
-                            {{ $data->losses ?? '' }}
+                            {{ $gm->losses ?? '' }}
                         </td>
                     </tr>
                     @endforeach

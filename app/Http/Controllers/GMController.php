@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GM;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -9,15 +10,44 @@ use Illuminate\Http\Request;
 
 class GMController extends Controller
 {
-    public function app()
+    public function getLocalToken()
     {
-        $apidata = collect($this->GMList());
-        return view('home.index', compact('apidata'));
+        return file_get_contents(base_path('bnetAPIToken.key'));
+    }
+    public function setLocalToken($new_token)
+    {
+        file_put_contents(base_path('bnetAPIToken.key'), $new_token);
     }
 
-    public function GMList()
+    public function app()
     {
-        $token = file_get_contents(base_path('bnetAPIToken.key'));
+        $na_gm = GM::where('region_id', 1)->get();
+        return view('home.index', compact('na_gm'));
+    }
+
+    public function store()
+    {
+        // armazena a nova lista da GM no banco de dados
+        $apidata = collect($this->NA_GMList());
+        GM::truncate();
+        foreach($apidata['ladderTeams'] as $data)
+        {
+            GM::create([
+                'displayName' => $data->teamMembers[0]->displayName ?? '',
+                'race' => ucfirst($data->teamMembers[0]->favoriteRace ?? ''),
+                'clan' => $data->teamMembers[0]->clanTag ?? '',
+                'mmr' => $data->mmr ?? '',
+                'points' => $data->points ?? '',
+                'wins' => $data->wins ?? '',
+                'losses' => $data->losses ?? '',
+                'region_id' => 1,
+            ]);
+        }
+    }
+
+    public function verifyToken()
+    {
+        $token = $this->getLocalToken();
 
         $client = new Client();
         try
@@ -40,10 +70,15 @@ class GMController extends Controller
                 ]
             ]);
             $new_token = json_decode($response->getBody());
-            file_put_contents(base_path('bnetAPIToken.key'), $new_token->access_token);
-            $token = $new_token->access_token;
+            $this->setLocalToken($new_token->access_token);
         }
+    }
 
+    public function NA_GMList()
+    {
+        $client = new Client();
+        $token = $this->getLocalToken();
+        
         $response = $client->request('GET', 'https://us.api.blizzard.com/sc2/ladder/grandmaster/1', [
             'headers' => [
                 'Authorization' => 'Bearer '.$token
