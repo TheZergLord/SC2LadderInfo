@@ -19,15 +19,17 @@ class GMController extends Controller
         file_put_contents(base_path('bnetAPIToken.key'), $new_token);
     }
 
+    // return the view
     public function app()
     {
         $na_gm = GM::where('region_id', 1)->get();
-        return view('home.index', compact('na_gm'));
+        $positionCounter = 1;
+        return view('home.index', compact('na_gm', 'positionCounter'));
     }
 
+    // store the GM list from de Battle.net API
     public function store()
     {
-        // armazena a nova lista da GM no banco de dados
         $apidata = collect($this->NA_GMList());
         GM::truncate();
         foreach($apidata['ladderTeams'] as $data)
@@ -45,6 +47,12 @@ class GMController extends Controller
         }
     }
 
+    /*
+    Verify if the token is valid, if not, get a new one and store it in the file system.
+    This is to avoid the need to get a new token every time the app is run.
+    The token is stored in the file system (bnetAPIToken.key), so it is not necessary to store it in the database.
+    The token is verified every time the app is run, so it is not necessary to verify it every time the token is used.
+    */
     public function verifyToken()
     {
         $token = $this->getLocalToken();

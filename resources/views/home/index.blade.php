@@ -5,6 +5,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
+                    <th scope="col">#</th>
                     <th scope="col">Player</th>
                     <th scope="col">Race</th>
                     <th scope="col">Clan</th>
@@ -22,6 +23,9 @@
                 @else
                     @foreach ($na_gm as $gm)
                     <tr>
+                        <th scope="row">
+                            {{ $positionCounter++ }}
+                        </th>
                         <th scope="row">
                             {{ $gm->displayName ?? '' }}
                         </th>
