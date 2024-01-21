@@ -36,10 +36,10 @@ class GMController extends Controller
                 'displayName' => $data->teamMembers[0]->displayName ?? '',
                 'race' => ucfirst($data->teamMembers[0]->favoriteRace ?? ''),
                 'clan' => $data->teamMembers[0]->clanTag ?? '',
-                'mmr' => $data->mmr ?? '',
-                'points' => $data->points ?? '',
-                'wins' => $data->wins ?? '',
-                'losses' => $data->losses ?? '',
+                'mmr' => $data->mmr ?? null,
+                'points' => $data->points ?? null,
+                'wins' => $data->wins ?? null,
+                'losses' => $data->losses ?? null,
                 'region_id' => 1,
             ]);
         }
