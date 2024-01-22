@@ -11,8 +11,8 @@ class GM extends Model
     protected $table = 'gms';
     protected $fillable = ['displayName', 'race', 'clan', 'mmr', 'points', 'wins', 'losses', 'region_id',];
 
-    public function region()
+    public function regionName()
     {
-        return $this->belongsTo(Region::class, 'region_id', );
+        return $this->belongsTo(Region::class, 'region_id', 'region');
     }
 }
