@@ -19,7 +19,7 @@ class GMController extends Controller
         file_put_contents(base_path('bnetAPIToken.key'), $new_token);
     }
 
-    // return the view
+    // Return the view.
     public function app()
     {
         $na_gm = GM::where('region_id', 1)->get();
@@ -27,10 +27,13 @@ class GMController extends Controller
         return view('home.index', compact('na_gm', 'positionCounter'));
     }
 
-    // store the GM list from de Battle.net API
-    public function store()
+    /*
+    Store the GM list from de Battle.net API to the database.
+    $region_id = 1 for NA, 2 for EU, 3 for KR and TW, 5 for CN.
+    */
+    public function store($region_id)
     {
-        $apidata = collect($this->NA_GMList());
+        $apidata = collect($this->GMList($region_id));
         GM::truncate();
         foreach($apidata['ladderTeams'] as $data)
         {
@@ -42,7 +45,7 @@ class GMController extends Controller
                 'points' => $data->points ?? null,
                 'wins' => $data->wins ?? null,
                 'losses' => $data->losses ?? null,
-                'region_id' => 1,
+                'region_id' => $region_id,
             ]);
         }
     }
@@ -82,12 +85,16 @@ class GMController extends Controller
         }
     }
 
-    public function NA_GMList()
+    /*
+    Get the GM list from the Battle.net API.
+    $region_id = 1 for NA, 2 for EU, 3 for KR and TW, 5 for CN.
+    */
+    public function GMList($region_id)
     {
         $client = new Client();
         $token = $this->getLocalToken();
         
-        $response = $client->request('GET', 'https://us.api.blizzard.com/sc2/ladder/grandmaster/1', [
+        $response = $client->request('GET', 'https://us.api.blizzard.com/sc2/ladder/grandmaster/'.$region_id, [
             'headers' => [
                 'Authorization' => 'Bearer '.$token
             ]

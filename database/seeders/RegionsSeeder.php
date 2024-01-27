@@ -14,21 +14,25 @@ class RegionsSeeder extends Seeder
     public function run(): void
     {
         Db::table('regions')->insert([
+            'id' => 1,
             'name' => 'Americas',
             'created_at' => now(),
             'updated_at' => now()
         ]);
         Db::table('regions')->insert([
+            'id' => 2,
             'name' => 'Europe',
             'created_at' => now(),
             'updated_at' => now()
         ]);
         Db::table('regions')->insert([
-            'name' => 'Korea',
+            'id' => 3,
+            'name' => 'Korea/Taiwan',
             'created_at' => now(),
             'updated_at' => now()
         ]);
         DB::table('regions')->insert([
+            'id' => 5,
             'name' => 'China',
             'created_at' => now(),
             'updated_at' => now()
