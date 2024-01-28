@@ -17,4 +17,5 @@ After clone this project in your local storage, you need to do the following ste
 - Access the [Battle.net Client Management Page](https://develop.battle.net/access/clients), log in with your Battle.net account and create a Client;
 - Create a copy of the file .env.example, located in the root directory of the project, and rename the copy to only ".env";
 - Open the .env file, and add a new line on it with "BATTLE_NET_CLIENT_ID={your Client ID}" and other line with "BATTLE_NET_CLIENT_SECRET={your Client Secret};
-- Create a new file in the root directory of the project with the name "bnetAPIToken.key".
+- Create a new file in the root directory of the project with the name "bnetAPIToken.key";
+- This application works with a schedule, that execute some methods every 10 minutes. To put these schedules work, you can run in your workspace the command "php artisan schedule:work". This schedule will keep the auth token always fresh and working and update the GM list. More information about schedulers you can access [Laravel Docs](https://laravel.com/docs/10.x/scheduling).
