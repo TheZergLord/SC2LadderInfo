@@ -34,7 +34,6 @@ class GMController extends Controller
     public function store($region_id)
     {
         $apidata = collect($this->GMList($region_id));
-        GM::truncate();
         foreach($apidata['ladderTeams'] as $data)
         {
             GM::create([
